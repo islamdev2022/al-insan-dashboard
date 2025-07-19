@@ -17,8 +17,8 @@ export const useLogin = () => {
       router.push("/dashboard")
 
       // You can also store user data in localStorage or context
-      if (data.user) {
-        localStorage.setItem("user", JSON.stringify(data.user))
+      if (data) {
+        localStorage.setItem("user", JSON.stringify(data))
       }
     },
     onError: (error) => {

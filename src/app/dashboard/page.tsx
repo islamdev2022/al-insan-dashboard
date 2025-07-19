@@ -36,7 +36,7 @@ const recentActivity = [
 export default function DashboardHome() {
   return (
     <div className="p-6 space-y-6">
-      <PageHeader title="Dashboard" />
+      {/* <PageHeader title="Dashboard" /> */}
       <StatsCards  />
       <RecentActivity />
     </div>

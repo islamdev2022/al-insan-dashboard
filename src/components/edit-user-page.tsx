@@ -1,67 +1,171 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { Search, Bell, Menu, Home, User, Camera, Upload, Mail, Lock } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useState } from "react"
-
+import type React from "react";
+import {
+  Search,
+  Bell,
+  Menu,
+  Home,
+  User,
+  Camera,
+  Upload,
+  Mail,
+  Lock,
+  Loader2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
+import {
+  useUpdateUserEmail,
+  useUpdateUserPhone,
+  useUpdateUser,
+} from "@/hooks/use-users";
 interface User {
-  name: string
-  email: string
-  password: string
-  phone: string
-  image?: string | null
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  phone: string;
+  image?: string | null;
 }
 
 interface EditUserPageProps {
-  user: User
-  onCancel: () => void
-  onSave: (userData: User) => void
+  user: User & { _id?: string };
+  onCancel: () => void;
+  onSave: (userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    image?: string | null;
+  }) => void;
 }
 
 export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
   const [formData, setFormData] = useState<{
-    fullName: string
-    email: string
-    password: string
-    phone: string
-    image?: string | null
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    image?: string | null;
   }>({
-    fullName: user?.name || "Samir Zitouni",
-    email: user?.email || "samirzitouni@gmail.com",
-    password: user?.password || "Samir@@@",
-    phone: user?.phone || "+213 5XX XX XX XX",
-    image: "/professional-headshot.png",
-  })
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    image: user?.image || null,
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSave({
-      name: formData.fullName,
-      email: formData.email,
-      password: formData.password,
-      phone: formData.phone,
-      image: formData.image,
-    })
-  }
+  const [errors, setErrors] = useState<{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+  }>({});
+
+  // API hooks
+  const updateEmailMutation = useUpdateUserEmail();
+  const updatePhoneMutation = useUpdateUserPhone();
+  const updateUserMutation = useUpdateUser();
+
+  const isSaving =
+    updateEmailMutation.isPending ||
+    updatePhoneMutation.isPending ||
+    updateUserMutation.isPending;
+
+  const validateForm = () => {
+    const newErrors: typeof errors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    if (!user._id) {
+      console.error("User ID is required for updates");
+      return;
+    }
+
+    try {
+      // Update firstName and lastName if changed
+      if (
+        formData.firstName !== user.firstName ||
+        formData.lastName !== user.lastName
+      ) {
+        await updateUserMutation.mutateAsync({
+          id: user._id,
+          data: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+          },
+        });
+      }
+
+      // Update email if it changed
+      if (formData.email !== user.email) {
+        await updateEmailMutation.mutateAsync({
+          id: user._id,
+          data: { email: formData.email },
+        });
+      }
+
+      // Update phone if it changed
+      if (formData.phone !== user.phone) {
+        await updatePhoneMutation.mutateAsync({
+          id: user._id,
+          data: { phone: formData.phone },
+        });
+      }
+
+      onSave({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        image: formData.image,
+      });
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (e) => {
-        setFormData({ ...formData, image: e.target?.result as string })
-      }
-      reader.readAsDataURL(file)
+        setFormData({ ...formData, image: e.target?.result as string });
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleDeleteImage = () => {
-    setFormData({ ...formData, image: null })
-  }
+    setFormData({ ...formData, image: null });
+  };
 
   return (
     <div className="flex h-screen bg-[#f3f3f3]">
@@ -80,6 +184,10 @@ export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
             <div className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors">
               <Menu size={20} />
               <span>List</span>
+            </div>
+            <div className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10 transition-colors">
+              <Bell size={20} />
+              <span>Notifications</span>
             </div>
             <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-white/20">
               <User size={20} />
@@ -106,14 +214,21 @@ export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
             </div>
 
             <div className="flex items-center gap-4">
-              <Bell size={20} className="text-[#a4a4a4]" />
               <div className="relative">
-                <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]" />
-                <Input placeholder="Search" className="pl-10 w-64 bg-[#f3f3f3] border-[#d9d9d9] rounded-full" />
+                <Search
+                  size={16}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]"
+                />
+                <Input
+                  placeholder="Search"
+                  className="pl-10 w-64 bg-[#f3f3f3] border-[#d9d9d9] rounded-full"
+                />
               </div>
               <Avatar className="w-8 h-8">
                 <AvatarImage src="/placeholder.svg?height=32&width=32" />
-                <AvatarFallback className="bg-[#a4a4a4] text-white">U</AvatarFallback>
+                <AvatarFallback className="bg-[#a4a4a4] text-white">
+                  U
+                </AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -159,59 +274,102 @@ export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
                 >
                   Delete image
                 </Button>
-                <input id="image-upload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                <input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
               </div>
-              <p className="text-[#a4a4a4] text-sm mt-2">Please upload a clear photo, minimum size 200×200 pixels</p>
+              <p className="text-[#a4a4a4] text-sm mt-2">
+                Please upload a clear photo, minimum size 200×200 pixels
+              </p>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-[#1f1f1f] font-medium mb-2">Full Name</label>
+                  <label className="block text-[#1f1f1f] font-medium mb-2">
+                    First Name
+                  </label>
                   <div className="relative">
-                    <User size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]" />
+                    <User
+                      size={20}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]"
+                    />
                     <Input
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      value={formData.firstName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
                       className="pl-12 bg-[#ececec] border-[#ececec] text-[#1f1f1f] font-medium"
                       required
                     />
                   </div>
+                  {errors.firstName && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-[#1f1f1f] font-medium mb-2">Email</label>
+                  <label className="block text-[#1f1f1f] font-medium mb-2">
+                    Last Name
+                  </label>
                   <div className="relative">
-                    <Mail size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]" />
+                    <User
+                      size={20}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]"
+                    />
                     <Input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      value={formData.lastName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
                       className="pl-12 bg-[#ececec] border-[#ececec] text-[#1f1f1f] font-medium"
                       required
                     />
                   </div>
+                  {errors.lastName && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-[#1f1f1f] font-medium mb-2">Password</label>
+                  <label className="block text-[#1f1f1f] font-medium mb-2">
+                    Email
+                  </label>
                   <div className="relative">
-                    <Lock size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]" />
+                    <Mail
+                      size={20}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#a4a4a4]"
+                    />
                     <Input
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       className="pl-12 bg-[#ececec] border-[#ececec] text-[#1f1f1f] font-medium"
                       required
                     />
                   </div>
+                  {errors.email && (
+                    <p className="text-sm text-red-500 mt-1">{errors.email}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-[#1f1f1f] font-medium mb-2">Number Phone</label>
+                  <label className="block text-[#1f1f1f] font-medium mb-2">
+                    Phone Number
+                  </label>
                   <div className="relative">
                     <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
                       <div className="w-5 h-3 bg-green-500 rounded-sm flex items-center justify-center">
@@ -222,11 +380,16 @@ export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
                     </div>
                     <Input
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       className="pl-12 bg-[#ececec] border-[#ececec] text-[#1f1f1f] font-medium"
                       required
                     />
                   </div>
+                  {errors.phone && (
+                    <p className="text-sm text-red-500 mt-1">{errors.phone}</p>
+                  )}
                 </div>
               </div>
 
@@ -235,12 +398,24 @@ export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
                 <Button
                   type="button"
                   onClick={onCancel}
+                  disabled={isSaving}
                   className="px-8 py-2 bg-[#b9b9b9] hover:bg-[#a4a4a4] text-white rounded-full"
                 >
                   Cancel
                 </Button>
-                <Button type="submit" className="px-8 py-2 bg-[#2ecc71] hover:bg-[#2fcd72] text-white rounded-full">
-                  Update
+                <Button
+                  type="submit"
+                  disabled={isSaving}
+                  className="px-8 py-2 bg-[#2ecc71] hover:bg-[#2fcd72] text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    "Update"
+                  )}
                 </Button>
               </div>
             </form>
@@ -248,5 +423,5 @@ export function EditUserPage({ user, onCancel, onSave }: EditUserPageProps) {
         </main>
       </div>
     </div>
-  )
+  );
 }

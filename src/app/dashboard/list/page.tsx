@@ -28,7 +28,7 @@ const getStatusColor = (status: string) => {
 export default function DonationsList() {
   return (
     <div className="p-4 md:p-6 space-y-4 md:space-y-6">
-      <PageHeader title="Donations List" />
+      {/* <PageHeader title="Donations List" /> */}
       <DonationsTable />
     </div>
   )
