@@ -43,14 +43,6 @@ export default function DashboardHome() {
       <PageHeader title={messages.dashboard} />
       <StatsCards />
       <RecentActivity />
-
-      {/* Demo of translation system */}
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">
-          {messages.intl.formatMessage({ id: "language.selectLanguage" })} Demo
-        </h2>
-        <TranslationExample />
-      </div>
     </div>
   );
 }

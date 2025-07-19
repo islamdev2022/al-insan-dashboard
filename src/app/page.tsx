@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useIntl } from "react-intl";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-
+import Image from "next/image";
 export default function HomePage() {
   const intl = useIntl();
 
@@ -19,9 +19,13 @@ export default function HomePage() {
       <div className="max-w-md w-full space-y-8 text-center">
         {/* Logo/Brand Section */}
         <div className="space-y-4">
-          <div className="w-20 h-20 bg-[#2ECC71] rounded-full flex items-center justify-center mx-auto">
-            <span className="text-white text-2xl font-bold">S</span>
-          </div>
+          <Image
+            src="/Sabeellogo.png"
+            alt="Al Insan Logo"
+            width={200}
+            height={200}
+            className="mx-auto"
+          />
           <div className="space-y-2">
             <h1 className="text-4xl font-bold text-gray-900">
               {intl.formatMessage({ id: "homepage.welcome" })}

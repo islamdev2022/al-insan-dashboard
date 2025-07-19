@@ -9,7 +9,7 @@ import { useLogin } from "@/hooks/use-login";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-
+import Image from "next/image";
 interface FormErrors {
   email?: string;
   password?: string;
@@ -178,12 +178,13 @@ export default function LoginForm() {
         {/* Right Side - Donate Platform Card */}
         <div className="flex-1 bg-gradient-to-br from-[#65FFA6] via-[#34d399] to-[#22c55e] rounded-2xl flex flex-col items-center justify-center text-white shadow-lg min-h-[180px] md:min-h-0 py-6 md:py-0">
           <div className="text-center">
-            <h2 className="text-4xl md:text-6xl font-bold mb-2 md:mb-4">
-              {intl.formatMessage({ id: "common.donate" })}
-            </h2>
-            <p className="text-lg md:text-2xl font-semibold opacity-90">
-              {intl.formatMessage({ id: "common.platform" })}
-            </p>
+           <Image
+            src="/Group 1.png"
+            alt="Welcome"
+            width={500}
+            height={300}
+            className="object-cover"
+          />
           </div>
         </div>
       </div>
