@@ -1,21 +1,33 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users } from "lucide-react"
+"use client";
 
-const recentActivity = [
-  "New user to Ahmed Saeed",
-  "New user to Yaser Saeed",
-  "New user to Mohammed",
-  "New user to Abdulrahman",
-  "New user to Abdulrahman",
-]
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Users } from "lucide-react";
+import { useTranslatedMessages } from "@/hooks/useTranslatedMessages";
 
 export default function RecentActivity() {
+  const messages = useTranslatedMessages();
+
+  const recentActivity = [
+    messages.intl.formatMessage({ id: "notifications.userRegistered" }) +
+      " - Ahmed Saeed",
+    messages.intl.formatMessage({ id: "notifications.newDonation" }) +
+      " - Yaser Saeed",
+    messages.intl.formatMessage({ id: "notifications.userRegistered" }) +
+      " - Mohammed",
+    messages.intl.formatMessage({ id: "notifications.donationCompleted" }) +
+      " - Abdulrahman",
+    messages.intl.formatMessage({ id: "notifications.newDonation" }) +
+      " - Abdulrahman",
+  ];
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
       {/* Recent Activity */}
       <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">Recent Activity</CardTitle>
+          <CardTitle className="text-lg font-semibold text-gray-900">
+            {messages.recentActivity}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -35,15 +47,19 @@ export default function RecentActivity() {
       {/* Number of Donors */}
       <Card className="bg-white shadow-sm hover:shadow-md transition-shadow duration-200">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-gray-900">Number of Donors</CardTitle>
+          <CardTitle className="text-lg font-semibold text-gray-900">
+            {messages.intl.formatMessage({ id: "dashboard.stats.totalUsers" })}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-4">
             <Users className="w-8 h-8 text-green-600" />
-            <div className="text-3xl md:text-4xl font-bold text-gray-900">20</div>
+            <div className="text-3xl md:text-4xl font-bold text-gray-900">
+              20
+            </div>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

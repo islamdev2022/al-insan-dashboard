@@ -1,0 +1,172 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "actions": "Actions",
+    "yes": "Oui",
+    "no": "Non",
+    "close": "Fermer",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Soumettre",
+    "view": "Voir",
+    "retry": "Réessayer",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "suspended": "Suspendu",
+    "phone": "Téléphone",
+    "email": "Email",
+    "date": "Date",
+    "tryAgain": "Réessayer",
+    "donate": "Donner",
+    "platform": "Plateforme"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "list": "Liste",
+    "user": "Utilisateur",
+    "donations": "Dons",
+    "users": "Utilisateurs"
+  },
+  "homepage": {
+    "welcome": "Bienvenue sur",
+    "title": "Tableau de bord Sabeel",
+    "description": "Gérez vos dons, suivez les campagnes et faites la différence dans votre communauté.",
+    "goToDashboard": "Aller au tableau de bord",
+    "startMakingDifference": "Commencez à faire la différence aujourd'hui"
+  },
+  "dashboard": {
+    "stats": {
+      "totalUsers": "Total des utilisateurs",
+      "totalDonations": "Total des dons",
+      "activeCampaigns": "Campagnes actives",
+      "completedDonations": "Dons terminés"
+    },
+    "recentActivity": "Activité récente",
+    "userManagement": "Gestion des utilisateurs",
+    "donationsTable": "Tableau des dons",
+    "createUserDescription": "Pour donner à quelqu'un l'accès à la liste des donateurs et aux outils de traitement, ajoutez un nouvel utilisateur avec un identifiant et un mot de passe.",
+    "searchUsersPlaceholder": "Rechercher des utilisateurs par nom, email ou téléphone..."
+  },
+  "user": {
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "email": "Email",
+    "phone": "Téléphone",
+    "language": "Langue",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "addUser": "Ajouter un utilisateur",
+    "editUser": "Modifier l'utilisateur",
+    "deleteUser": "Supprimer l'utilisateur",
+    "userDetails": "Détails de l'utilisateur",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "deleteSuccess": "Utilisateur supprimé avec succès",
+    "addSuccess": "Utilisateur ajouté avec succès",
+    "updateSuccess": "Utilisateur mis à jour avec succès",
+    "deleteWarning": "Cette action ne peut pas être annulée.",
+    "deleting": "Suppression...",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications",
+    "validation": {
+      "firstNameRequired": "Le prénom est requis",
+      "lastNameRequired": "Le nom de famille est requis",
+      "emailRequired": "L'email est requis",
+      "emailInvalid": "Veuillez entrer une adresse email valide",
+      "phoneRequired": "Le numéro de téléphone est requis"
+    },
+    "placeholders": {
+      "firstName": "Entrez le prénom",
+      "lastName": "Entrez le nom de famille",
+      "email": "Entrez l'adresse email",
+      "phone": "Entrez le numéro de téléphone"
+    }
+  },
+  "users": {
+    "title": "Utilisateurs",
+    "allUsers": "Tous les utilisateurs",
+    "noUsersFound": "Aucun utilisateur trouvé.",
+    "searchPlaceholder": "Rechercher des utilisateurs par nom, email ou téléphone...",
+    "loading": "Chargement des utilisateurs...",
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif"
+    },
+    "table": {
+      "id": "ID",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "email": "Email",
+      "role": "Rôle",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "error": {
+      "failed": "Échec du chargement des utilisateurs"
+    }
+  },
+  "donations": {
+    "trackingCode": "Code de suivi",
+    "animalType": "Type d'animal",
+    "assignedTo": "Assigné à",
+    "status": "Statut",
+    "donorDetails": "Détails du donateur",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "completed": "Terminé",
+    "cancelled": "Annulé",
+    "donationRecord": "Enregistrement de don",
+    "noDonationsFound": "Aucun don trouvé",
+    "failedToFetch": "Échec de la récupération des dons",
+    "unexpectedError": "Une erreur inattendue s'est produite lors de la récupération des dons",
+    "adjustSearchCriteria": "Essayez d'ajuster vos critères de recherche ou de filtre.",
+    "totalDonors": "Total des donateurs",
+    "beneficiaries": "Bénéficiaires"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "welcome": "Bienvenue à la maison",
+    "enterDetails": "Entrez vos détails",
+    "emailRequired": "L'email est requis",
+    "emailMinLength": "L'email doit contenir au moins 3 caractères",
+    "passwordRequired": "Le mot de passe est requis",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+    "loginFailed": "Échec de la connexion. Veuillez réessayer.",
+    "loggingIn": "Connexion en cours...",
+    "logIn": "Se connecter",
+    "loginButton": "Se connecter",
+    "loginError": "Échec de la connexion. Veuillez vérifier vos identifiants.",
+    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "logoutSuccess": "Déconnecté avec succès"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "Aucune notification",
+    "markAsRead": "Marquer comme lu",
+    "newDonation": "Nouveau don reçu",
+    "userRegistered": "Nouvel utilisateur enregistré",
+    "donationCompleted": "Don terminé"
+  },
+  "language": {
+    "selectLanguage": "Sélectionner la langue",
+    "english": "English",
+    "arabic": "العربية",
+    "french": "Français"
+  }
+}

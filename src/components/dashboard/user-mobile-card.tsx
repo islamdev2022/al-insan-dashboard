@@ -1,5 +1,6 @@
 "use client";
 
+import { useIntl } from "react-intl";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Eye } from "lucide-react";
@@ -18,6 +19,8 @@ export function UserMobileCard({
   onEdit,
   onDelete,
 }: UserMobileCardProps) {
+  const intl = useIntl();
+
   const getUserFullName = (user: User): string => {
     return `${user.firstName} ${user.lastName}`;
   };
@@ -26,12 +29,13 @@ export function UserMobileCard({
     return new Date(user.createdAt).toLocaleDateString();
   };
 
-  const getUserStatus = (): "Active" | "Inactive" => {
-    return "Active";
+  const getUserStatus = (): string => {
+    return intl.formatMessage({ id: "users.status.active" });
   };
 
-  const getStatusColor = (status: "Active" | "Inactive") => {
-    return status === "Active"
+  const getStatusColor = (status: string) => {
+    const activeText = intl.formatMessage({ id: "users.status.active" });
+    return status === activeText
       ? "bg-green-100 text-green-800 border-green-200"
       : "bg-gray-100 text-gray-800 border-gray-200";
   };
@@ -58,15 +62,21 @@ export function UserMobileCard({
       </div>
       <div className="space-y-2 text-sm mb-3">
         <div className="flex justify-between">
-          <span className="text-[#4c4c4c]">Phone:</span>
+          <span className="text-[#4c4c4c]">
+            {intl.formatMessage({ id: "users.table.phone" })}:
+          </span>
           <span className="text-[#1f1f1f]">{user.phone}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-[#4c4c4c]">Email:</span>
+          <span className="text-[#4c4c4c]">
+            {intl.formatMessage({ id: "users.table.email" })}:
+          </span>
           <span className="text-[#1f1f1f] truncate ml-2">{user.email}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-[#4c4c4c]">Date:</span>
+          <span className="text-[#4c4c4c]">
+            {intl.formatMessage({ id: "users.table.date" })}:
+          </span>
           <span className="text-[#1f1f1f]">{getFormattedDate(user)}</span>
         </div>
       </div>

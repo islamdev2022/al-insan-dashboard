@@ -11,6 +11,7 @@ import { EditUserForm } from "./edit-user-form";
 import { AddUserPage } from "@/components/add-user-page";
 import { UserInfoModal } from "@/components/user-info-model";
 import { useUsers, useDeleteUser } from "@/hooks/use-users";
+import { useTranslatedMessages } from "@/hooks/useTranslatedMessages";
 import type { User } from "@/functions/users";
 
 export default function UserManagement() {
@@ -23,6 +24,9 @@ export default function UserManagement() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 4;
+
+  // Translation messages
+  const messages = useTranslatedMessages();
 
   // API hooks
   const { data: usersResponse, isLoading, error, refetch } = useUsers();

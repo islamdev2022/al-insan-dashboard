@@ -59,3 +59,13 @@ export const getAllDonations = async (): Promise<DonationsResponse> => {
     throw new Error("An unexpected error occurred while fetching donations")
   }
 }
+
+// Helper function to get translated error messages
+export const getTranslatedErrorMessage = (error: string, intl: any) => {
+  const errorMap: Record<string, string> = {
+    "Failed to fetch donations": intl.formatMessage({ id: "donations.failedToFetch" }),
+    "An unexpected error occurred while fetching donations": intl.formatMessage({ id: "donations.unexpectedError" })
+  }
+  
+  return errorMap[error] || error
+}

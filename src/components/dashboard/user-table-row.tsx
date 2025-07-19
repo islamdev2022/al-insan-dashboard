@@ -1,5 +1,6 @@
 "use client";
 
+import { useIntl } from "react-intl";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Eye } from "lucide-react";
@@ -18,6 +19,8 @@ export function UserTableRow({
   onEdit,
   onDelete,
 }: UserTableRowProps) {
+  const intl = useIntl();
+
   const getUserFullName = (user: User): string => {
     return `${user.firstName} ${user.lastName}`;
   };
@@ -26,12 +29,13 @@ export function UserTableRow({
     return new Date(user.createdAt).toLocaleDateString();
   };
 
-  const getUserStatus = (): "Active" | "Inactive" => {
-    return "Active";
+  const getUserStatus = (): string => {
+    return intl.formatMessage({ id: "users.status.active" });
   };
 
-  const getStatusColor = (status: "Active" | "Inactive") => {
-    return status === "Active"
+  const getStatusColor = (status: string) => {
+    const activeText = intl.formatMessage({ id: "users.status.active" });
+    return status === activeText
       ? "bg-green-100 text-green-800 border-green-200"
       : "bg-gray-100 text-gray-800 border-gray-200";
   };

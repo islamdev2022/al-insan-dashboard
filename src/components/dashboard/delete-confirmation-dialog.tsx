@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +29,8 @@ export function DeleteConfirmationDialog({
   onConfirm,
   isDeleting = false,
 }: DeleteConfirmationDialogProps) {
+  const intl = useIntl();
+
   if (!user) return null;
 
   const getUserFullName = (user: User): string => {
@@ -49,10 +52,10 @@ export function DeleteConfirmationDialog({
             </div>
             <div>
               <DialogTitle className="text-lg font-semibold">
-                Delete User
+                {intl.formatMessage({ id: "user.deleteUser" })}
               </DialogTitle>
               <DialogDescription className="text-sm text-gray-600 mt-1">
-                This action cannot be undone.
+                {intl.formatMessage({ id: "user.deleteWarning" })}
               </DialogDescription>
             </div>
           </div>
@@ -60,15 +63,18 @@ export function DeleteConfirmationDialog({
 
         <div className="py-4">
           <p className="text-gray-700">
-            Are you sure you want to delete{" "}
-            <span className="font-medium">{getUserFullName(user)}</span>? This
-            will permanently remove their account and all associated data.
+            {intl.formatMessage(
+              { id: "user.confirmDelete" },
+              {
+                name: getUserFullName(user),
+              }
+            )}
           </p>
         </div>
 
         <DialogFooter className="gap-2">
           <Button variant="outline" onClick={onClose} disabled={isDeleting}>
-            Cancel
+            {intl.formatMessage({ id: "common.cancel" })}
           </Button>
           <Button
             variant="destructive"
@@ -76,7 +82,9 @@ export function DeleteConfirmationDialog({
             disabled={isDeleting}
             className="bg-red-600 hover:bg-red-700"
           >
-            {isDeleting ? "Deleting..." : "Delete User"}
+            {isDeleting
+              ? intl.formatMessage({ id: "user.deleting" })
+              : intl.formatMessage({ id: "user.deleteUser" })}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,58 +1,92 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Home, List, Users, Menu, X, ChevronLeft, ChevronRight } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import LogoutDialog from "./logout-dialog"
-import Image from "next/image"
+import { useState } from "react";
+import {
+  Home,
+  List,
+  Users,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import LogoutDialog from "./logout-dialog";
+import Image from "next/image";
+import { useIntl } from "react-intl";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/components/IntlProvider";
+
 const navigation = [
-  { name: "Home", href: "/dashboard", icon: Home },
-  { name: "List", href: "/dashboard/list", icon: List },
-  { name: "User", href: "/dashboard/user", icon: Users },
-]
+  { name: "navigation.home", href: "/dashboard", icon: Home },
+  { name: "navigation.list", href: "/dashboard/list", icon: List },
+  { name: "navigation.user", href: "/dashboard/user", icon: Users },
+];
 
 export default function Sidebar() {
-  const pathname = usePathname()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const intl = useIntl();
+  const { locale } = useLanguage();
+  const isRTL = locale === "ar";
+  const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false)
-  }
+    setIsMobileMenuOpen(false);
+  };
 
   const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed)
-  }
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
     <>
       {/* Mobile Menu Button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
+      <div
+        className={`lg:hidden fixed top-4 z-50 ${isRTL ? "right-4" : "left-4"}`}
+      >
         <Button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           variant="outline"
           size="icon"
           className="bg-white shadow-md"
         >
-          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {isMobileMenuOpen ? (
+            <X className="w-5 h-5" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
         </Button>
       </div>
 
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" onClick={closeMobileMenu} />
+        <div
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={closeMobileMenu}
+        />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed lg:static inset-y-0 left-0 z-50 bg-[#2ECC71] text-white flex flex-col transform transition-all duration-300 ease-in-out lg:transform-none ${
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed lg:static inset-y-0 ${
+          isRTL ? "right-0" : "left-0"
+        } z-50 bg-[#2ECC71] text-white flex flex-col transform transition-all duration-300 ease-in-out lg:transform-none ${
+          isMobileMenuOpen
+            ? "translate-x-0"
+            : isRTL
+            ? "translate-x-full lg:translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
         } ${isCollapsed ? "lg:w-20" : "lg:w-64"} w-64`}
       >
         {/* Logo/Brand */}
-        <div className={`p-6 border-b rounded-b-4xl border-green-400 ${isCollapsed ? "lg:px-4" : ""}`}>
+        <div
+          className={`p-6 border-b rounded-b-4xl border-green-400 ${
+            isCollapsed ? "lg:px-4" : ""
+          }`}
+        >
           {isCollapsed ? (
             <Image
               src="/Group 1.png"
@@ -72,6 +106,13 @@ export default function Sidebar() {
           )}
         </div>
 
+        {/* Language Switcher - Only show when not collapsed */}
+        {!isCollapsed && (
+          <div className="px-4 py-2">
+            <LanguageSwitcher />
+          </div>
+        )}
+
         {/* Desktop Collapse Toggle */}
         <div className="hidden lg:flex justify-center p-4">
           <Button
@@ -80,14 +121,20 @@ export default function Sidebar() {
             size="icon"
             className="text-green-400 hover:bg-white hover:bg-opacity-20 hover:text-green-500 w-12 h-12 rounded-full transition-all duration-200 hover:scale-110 cursor-pointer"
           >
-            {isCollapsed ? <ChevronRight className="w-6 h-6 bg-white rounded-full size-20" /> : <ChevronLeft className="w-6 h-6 bg-white rounded-full size-20" />}
+            {isCollapsed ? (
+              <ChevronRight className="w-6 h-6 bg-white rounded-full size-20" />
+            ) : (
+              <ChevronLeft className="w-6 h-6 bg-white rounded-full size-20" />
+            )}
           </Button>
         </div>
 
         {/* Navigation */}
-        <nav className={`flex-1 px-4 space-y-2 ${isCollapsed ? "lg:px-2" : ""}`}>
+        <nav
+          className={`flex-1 px-4 space-y-2 ${isCollapsed ? "lg:px-2" : ""}`}
+        >
           {navigation.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = pathname === item.href;
             return (
               <Link
                 key={item.name}
@@ -102,29 +149,43 @@ export default function Sidebar() {
                     ? "bg-white bg-opacity-20 text-green-400 transform scale-105"
                     : "text-white hover:bg-green-200  hover:bg-opacity-10 hover:text-green-500 hover:transform hover:scale-105"
                 }`}
-                title={isCollapsed ? item.name : ""}
+                title={isCollapsed ? intl.formatMessage({ id: item.name }) : ""}
               >
-                <item.icon className={`w-5 h-5 ${isCollapsed ? "lg:mr-0" : "mr-3"}`} />
-                <span className={`${isCollapsed ? "lg:hidden" : ""}`}>{item.name}</span>
-                
+                <item.icon
+                  className={`w-5 h-5 ${
+                    isCollapsed ? "lg:mr-0" : isRTL ? "ml-3" : "mr-3"
+                  }`}
+                />
+                <span className={`${isCollapsed ? "lg:hidden" : ""}`}>
+                  {intl.formatMessage({ id: item.name })}
+                </span>
+
                 {/* Tooltip for collapsed state */}
                 {isCollapsed && (
-                  <div className="hidden lg:block absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                    {item.name}
+                  <div
+                    className={`hidden lg:block absolute ${
+                      isRTL ? "right-full mr-2" : "left-full ml-2"
+                    } px-2 py-1 bg-gray-900 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50`}
+                  >
+                    {intl.formatMessage({ id: item.name })}
                   </div>
                 )}
               </Link>
-            )
+            );
           })}
         </nav>
 
         {/* Sign out */}
-        <div className={`p-4 border-t border-green-400 ${isCollapsed ? "lg:px-2" : ""}`}>
+        <div
+          className={`p-4 border-t border-green-400 ${
+            isCollapsed ? "lg:px-2" : ""
+          }`}
+        >
           <div className={isCollapsed ? "lg:flex lg:justify-center" : ""}>
             <LogoutDialog collapsed={isCollapsed} />
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }

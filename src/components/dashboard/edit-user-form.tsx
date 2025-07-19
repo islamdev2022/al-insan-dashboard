@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useIntl } from "react-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +21,7 @@ interface EditUserFormProps {
 }
 
 export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
+  const intl = useIntl();
   const [formData, setFormData] = useState({
     firstName: user.firstName || "",
     lastName: user.lastName || "",
@@ -46,18 +48,28 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
     const newErrors: typeof errors = {};
 
     if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required";
+      newErrors.firstName = intl.formatMessage({
+        id: "user.validation.firstNameRequired",
+      });
     }
     if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
+      newErrors.lastName = intl.formatMessage({
+        id: "user.validation.lastNameRequired",
+      });
     }
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = intl.formatMessage({
+        id: "user.validation.emailRequired",
+      });
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = intl.formatMessage({
+        id: "user.validation.emailInvalid",
+      });
     }
     if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
+      newErrors.phone = intl.formatMessage({
+        id: "user.validation.phoneRequired",
+      });
     }
 
     setErrors(newErrors);
@@ -121,7 +133,9 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
             >
               <ArrowLeft size={20} />
             </Button>
-            <h1 className="text-xl font-semibold text-[#1f1f1f]">Edit User</h1>
+            <h1 className="text-xl font-semibold text-[#1f1f1f]">
+              {intl.formatMessage({ id: "user.editUser" })}
+            </h1>
           </div>
         </div>
       </header>
@@ -153,7 +167,7 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                       htmlFor="firstName"
                       className="text-sm font-medium text-[#4c4c4c]"
                     >
-                      First Name
+                      {intl.formatMessage({ id: "user.firstName" })}
                     </Label>
                     <div className="relative">
                       <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#4c4c4c] w-4 h-4" />
@@ -169,7 +183,9 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                         className={`pl-10 ${
                           errors.firstName ? "border-red-500" : ""
                         }`}
-                        placeholder="Enter first name"
+                        placeholder={intl.formatMessage({
+                          id: "user.placeholders.firstName",
+                        })}
                       />
                     </div>
                     {errors.firstName && (
@@ -183,7 +199,7 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                       htmlFor="lastName"
                       className="text-sm font-medium text-[#4c4c4c]"
                     >
-                      Last Name
+                      {intl.formatMessage({ id: "user.lastName" })}
                     </Label>
                     <div className="relative">
                       <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#4c4c4c] w-4 h-4" />
@@ -196,7 +212,9 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                         className={`pl-10 ${
                           errors.lastName ? "border-red-500" : ""
                         }`}
-                        placeholder="Enter last name"
+                        placeholder={intl.formatMessage({
+                          id: "user.placeholders.lastName",
+                        })}
                       />
                     </div>
                     {errors.lastName && (
@@ -211,7 +229,7 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                     htmlFor="email"
                     className="text-sm font-medium text-[#4c4c4c]"
                   >
-                    Email Address
+                    {intl.formatMessage({ id: "user.email" })}
                   </Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#4c4c4c] w-4 h-4" />
@@ -225,7 +243,9 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                       className={`pl-10 ${
                         errors.email ? "border-red-500" : ""
                       }`}
-                      placeholder="Enter email address"
+                      placeholder={intl.formatMessage({
+                        id: "user.placeholders.email",
+                      })}
                     />
                   </div>
                   {errors.email && (
@@ -239,7 +259,7 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                     htmlFor="phone"
                     className="text-sm font-medium text-[#4c4c4c]"
                   >
-                    Phone Number
+                    {intl.formatMessage({ id: "user.phone" })}
                   </Label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#4c4c4c] w-4 h-4" />
@@ -252,7 +272,9 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                       className={`pl-10 ${
                         errors.phone ? "border-red-500" : ""
                       }`}
-                      placeholder="Enter phone number"
+                      placeholder={intl.formatMessage({
+                        id: "user.placeholders.phone",
+                      })}
                     />
                   </div>
                   {errors.phone && (
@@ -269,7 +291,7 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                     disabled={isLoading}
                     className="px-6"
                   >
-                    Cancel
+                    {intl.formatMessage({ id: "common.cancel" })}
                   </Button>
                   <Button
                     type="button"
@@ -280,10 +302,10 @@ export function EditUserForm({ user, onCancel, onSave }: EditUserFormProps) {
                     {isLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Saving...
+                        {intl.formatMessage({ id: "user.saving" })}
                       </>
                     ) : (
-                      "Save Changes"
+                      intl.formatMessage({ id: "user.saveChanges" })
                     )}
                   </Button>
                 </div>

@@ -120,3 +120,166 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* RTL Support */
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+/* RTL-specific adjustments */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left !important;
+}
+
+/* Margin adjustments for RTL */
+[dir="rtl"] .mr-3 {
+  margin-right: 0 !important;
+  margin-left: 0.75rem !important;
+}
+
+[dir="rtl"] .ml-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+/* Padding adjustments for RTL */
+[dir="rtl"] .pl-4 {
+  padding-left: 0 !important;
+  padding-right: 1rem !important;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-right: 0 !important;
+  padding-left: 1rem !important;
+}
+
+[dir="rtl"] .px-4 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+/* Sidebar adjustments for RTL */
+[dir="rtl"] .fixed.inset-y-0.left-0 {
+  left: auto !important;
+  right: 0 !important;
+}
+
+[dir="rtl"] .fixed.inset-y-0.right-0 {
+  right: 0 !important;
+  left: auto !important;
+}
+
+[dir="rtl"] .-translate-x-full {
+  transform: translateX(100%) !important;
+}
+
+[dir="rtl"] .translate-x-full {
+  transform: translateX(-100%) !important;
+}
+
+/* Mobile menu button positioning for RTL */
+[dir="rtl"] .fixed.top-4.left-4 {
+  left: auto !important;
+  right: 1rem !important;
+}
+
+[dir="rtl"] .fixed.top-4.right-4 {
+  right: 1rem !important;
+  left: auto !important;
+}
+
+/* Popover and tooltip adjustments for RTL */
+[dir="rtl"] .absolute.left-full {
+  left: auto !important;
+  right: 100% !important;
+}
+
+[dir="rtl"] .absolute.right-full {
+  right: 100% !important;
+  left: auto !important;
+}
+
+[dir="rtl"] .ml-2 {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+[dir="rtl"] .absolute.right-4 {
+  right: auto !important;
+  left: 1rem !important;
+}
+
+[dir="rtl"] .absolute.top-4.right-4 {
+  right: auto !important;
+  left: 1rem !important;
+}
+
+/* Flexbox adjustments for RTL */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row !important;
+}
+
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  margin-right: 0.5rem !important;
+  margin-left: 0 !important;
+}
+
+/* Icon and text spacing in RTL */
+[dir="rtl"] .gap-2 {
+  gap: 0.5rem !important;
+}
+
+/* RTL Sidebar specific fixes */
+html[dir="rtl"] .fixed.inset-y-0 {
+  left: auto !important;
+  right: 0 !important;
+}
+
+html[dir="rtl"] .-translate-x-full {
+  transform: translateX(100%) !important;
+}
+
+html[dir="rtl"] .translate-x-0 {
+  transform: translateX(0) !important;
+}
+
+html[dir="rtl"] .translate-x-full {
+  transform: translateX(-100%) !important;
+}
+
+/* Responsive fixes for RTL at large screens */
+@media (min-width: 1024px) {
+  html[dir="rtl"] .lg\:static {
+    position: static !important;
+  }
+
+  html[dir="rtl"] .lg\:transform-none {
+    transform: none !important;
+  }
+
+  html[dir="rtl"] .lg\:translate-x-0 {
+    transform: translateX(0) !important;
+  }
+}

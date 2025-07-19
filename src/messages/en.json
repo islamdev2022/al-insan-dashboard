@@ -1,0 +1,172 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "view": "View",
+    "retry": "Retry",
+    "active": "Active",
+    "inactive": "Inactive",
+    "suspended": "Suspended",
+    "phone": "Phone",
+    "email": "Email",
+    "date": "Date", 
+    "tryAgain": "Try Again",
+    "donate": "Donate",
+    "platform": "Platform"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "list": "List",
+    "user": "User",
+    "donations": "Donations",
+    "users": "Users"
+  },
+  "homepage": {
+    "welcome": "Welcome to",
+    "title": "Sabeel Dashboard",
+    "description": "Manage your donations, track campaigns, and make a difference in your community.",
+    "goToDashboard": "Go to Dashboard",
+    "startMakingDifference": "Start making a difference today"
+  },
+  "dashboard": {
+    "stats": {
+      "totalUsers": "Total Users",
+      "totalDonations": "Total Donations",
+      "activeCampaigns": "Active Campaigns",
+      "completedDonations": "Completed Donations"
+    },
+    "recentActivity": "Recent Activity",
+    "userManagement": "User Management",
+    "donationsTable": "Donations Table",
+    "createUserDescription": "To give someone access to the donors list and processing tools, add a new user with an ID and password.",
+    "searchUsersPlaceholder": "Search users by name, email, or phone..."
+  },
+  "user": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "language": "Language",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "addUser": "Add User",
+    "editUser": "Edit User",
+    "deleteUser": "Delete User",
+    "userDetails": "User Details",
+    "confirmDelete": "Are you sure you want to delete this user?",
+    "deleteSuccess": "User deleted successfully",
+    "addSuccess": "User added successfully",
+    "updateSuccess": "User updated successfully",
+    "deleteWarning": "This action cannot be undone.",
+    "deleting": "Deleting...",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "phoneRequired": "Phone number is required"
+    },
+    "placeholders": {
+      "firstName": "Enter first name",
+      "lastName": "Enter last name",
+      "email": "Enter email address",
+      "phone": "Enter phone number"
+    }
+  },
+  "users": {
+    "title": "Users",
+    "allUsers": "All Users",
+    "noUsersFound": "No users found.",
+    "searchPlaceholder": "Search users by name, email, or phone...",
+    "loading": "Loading users...",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "role": "Role",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "error": {
+      "failed": "Failed to load users"
+    }
+  },
+  "donations": {
+    "trackingCode": "Tracking Code",
+    "animalType": "Animal Type",
+    "assignedTo": "Assigned To",
+    "status": "Status",
+    "donorDetails": "Donor Details",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "pending": "Pending",
+    "approved": "Approved",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "donationRecord": "Donation Record",
+    "noDonationsFound": "No donations found",
+    "failedToFetch": "Failed to fetch donations",
+    "unexpectedError": "An unexpected error occurred while fetching donations",
+    "adjustSearchCriteria": "Try adjusting your search or filter criteria.",
+    "totalDonors": "Total Donors",
+    "beneficiaries": "Beneficiaries"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "welcome": "Welcome Home",
+    "enterDetails": "Enter Your Details",
+    "emailRequired": "Email is required",
+    "emailMinLength": "Email must be at least 3 characters",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least 6 characters",
+    "loginFailed": "Login failed. Please try again.",
+    "loggingIn": "Logging in...",
+    "logIn": "Log in",
+    "loginButton": "Sign In",
+    "loginError": "Login failed. Please check your credentials.",
+    "logoutConfirm": "Are you sure you want to logout?",
+    "logoutSuccess": "Logged out successfully"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No notifications",
+    "markAsRead": "Mark as read",
+    "newDonation": "New donation received",
+    "userRegistered": "New user registered",
+    "donationCompleted": "Donation completed"
+  },
+  "language": {
+    "selectLanguage": "Select Language",
+    "english": "English",
+    "arabic": "العربية",
+    "french": "Français"
+  }
+}

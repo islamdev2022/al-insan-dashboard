@@ -1,68 +1,70 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Eye, EyeOff, Home } from "lucide-react"
-import { useLogin } from "@/hooks/use-login"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useState } from "react";
+import { useIntl } from "react-intl";
+import { Eye, EyeOff, Home } from "lucide-react";
+import { useLogin } from "@/hooks/use-login";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface FormErrors {
-  email?: string
-  password?: string
+  email?: string;
+  password?: string;
 }
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false)
+  const intl = useIntl();
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
+  });
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const loginMutation = useLogin()
+  const loginMutation = useLogin();
 
   const validateForm = (): boolean => {
-    const newErrors: FormErrors = {}
+    const newErrors: FormErrors = {};
 
     // Email validation
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required"
+      newErrors.email = intl.formatMessage({ id: "auth.emailRequired" });
     } else if (formData.email.length < 3) {
-      newErrors.email = "Email must be at least 3 characters"
+      newErrors.email = intl.formatMessage({ id: "auth.emailMinLength" });
     }
 
     // Password validation
     if (!formData.password) {
-      newErrors.password = "Password is required"
+      newErrors.password = intl.formatMessage({ id: "auth.passwordRequired" });
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters"
+      newErrors.password = intl.formatMessage({ id: "auth.passwordMinLength" });
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      return
+      return;
     }
 
-    loginMutation.mutate(formData)
-  }
+    loginMutation.mutate(formData);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#65FFA6] via-[#34d399] to-[#22c55e] flex items-center justify-center p-4">
@@ -77,15 +79,20 @@ export default function LoginForm() {
 
           {/* Welcome Text */}
           <div className="text-center mb-6 md:mb-8">
-            <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">Welcome Home</h1>
-            <p className="text-gray-600 text-base md:text-lg">Enter Your Details</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-black mb-2">
+              {intl.formatMessage({ id: "auth.welcome" })}
+            </h1>
+            <p className="text-gray-600 text-base md:text-lg">
+              {intl.formatMessage({ id: "auth.enterDetails" })}
+            </p>
           </div>
 
           {/* Error Alert */}
           {loginMutation.isError && (
             <Alert className="mb-4 border-red-200 bg-red-50">
               <AlertDescription className="text-red-700">
-                {loginMutation.error?.message || "Login failed. Please try again."}
+                {loginMutation.error?.message ||
+                  intl.formatMessage({ id: "auth.loginFailed" })}
               </AlertDescription>
             </Alert>
           )}
@@ -96,7 +103,7 @@ export default function LoginForm() {
             <div>
               <Input
                 type="email"
-                placeholder="Email"
+                placeholder={intl.formatMessage({ id: "auth.email" })}
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 className={`w-full px-5 md:px-6 py-3 md:py-4 border rounded-full text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all text-base md:text-lg ${
@@ -106,7 +113,9 @@ export default function LoginForm() {
                 }`}
                 disabled={loginMutation.isPending}
               />
-              {errors.email && <p className="text-red-500 text-sm mt-1 ml-4">{errors.email}</p>}
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1 ml-4">{errors.email}</p>
+              )}
             </div>
 
             {/* Password Input */}
@@ -114,9 +123,11 @@ export default function LoginForm() {
               <div className="relative">
                 <Input
                   type={showPassword ? "text" : "password"}
-                  placeholder="Password"
+                  placeholder={intl.formatMessage({ id: "auth.password" })}
                   value={formData.password}
-                  onChange={(e) => handleInputChange("password", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("password", e.target.value)
+                  }
                   className={`w-full px-5 md:px-6 py-3 md:py-4 pr-12 md:pr-14 border rounded-full text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 transition-all text-base md:text-lg ${
                     errors.password
                       ? "border-red-300 focus:border-red-500 focus:ring-red-200"
@@ -130,10 +141,18 @@ export default function LoginForm() {
                   className="absolute right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   disabled={loginMutation.isPending}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
-              {errors.password && <p className="text-red-500 text-sm mt-1 ml-4">{errors.password}</p>}
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1 ml-4">
+                  {errors.password}
+                </p>
+              )}
             </div>
 
             {/* Login Button */}
@@ -146,10 +165,10 @@ export default function LoginForm() {
                 {loginMutation.isPending ? (
                   <div className="flex items-center justify-center">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Logging in...
+                    {intl.formatMessage({ id: "auth.loggingIn" })}
                   </div>
                 ) : (
-                  "Log in"
+                  intl.formatMessage({ id: "auth.logIn" })
                 )}
               </Button>
             </div>
@@ -159,11 +178,15 @@ export default function LoginForm() {
         {/* Right Side - Donate Platform Card */}
         <div className="flex-1 bg-gradient-to-br from-[#65FFA6] via-[#34d399] to-[#22c55e] rounded-2xl flex flex-col items-center justify-center text-white shadow-lg min-h-[180px] md:min-h-0 py-6 md:py-0">
           <div className="text-center">
-            <h2 className="text-4xl md:text-6xl font-bold mb-2 md:mb-4">Donate</h2>
-            <p className="text-lg md:text-2xl font-semibold opacity-90">Platform</p>
+            <h2 className="text-4xl md:text-6xl font-bold mb-2 md:mb-4">
+              {intl.formatMessage({ id: "common.donate" })}
+            </h2>
+            <p className="text-lg md:text-2xl font-semibold opacity-90">
+              {intl.formatMessage({ id: "common.platform" })}
+            </p>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

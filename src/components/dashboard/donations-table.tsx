@@ -22,6 +22,7 @@ import {
   Phone,
 } from "lucide-react";
 import { useDonations } from "@/hooks/use-donations";
+import { useTranslatedMessages } from "@/hooks/useTranslatedMessages";
 import type { DonationRecord } from "@/functions/donations";
 
 const getStatusColor = (status: string) => {
@@ -47,6 +48,8 @@ export default function DonationsTable() {
   const [selectedDonation, setSelectedDonation] =
     useState<DonationRecord | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const messages = useTranslatedMessages();
 
   // Fetch donations from backend
   const { data: donationsResponse, isLoading, error, refetch } = useDonations();
@@ -85,7 +88,6 @@ export default function DonationsTable() {
   };
 
   const filteredDonations = donations.filter((record: DonationRecord) => {
-
     const matchesSearch =
       record.trackingCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
       record.animalType.toLowerCase().includes(searchTerm.toLowerCase());
@@ -269,7 +271,7 @@ export default function DonationsTable() {
           <CardContent className="p-8">
             <div className="flex items-center justify-center">
               <Loader2 className="h-8 w-8 animate-spin text-green-600" />
-              <span className="ml-2 text-gray-600">Loading donations...</span>
+              <span className="ml-2 text-gray-600">{messages.loading}</span>
             </div>
           </CardContent>
         </Card>
@@ -281,10 +283,14 @@ export default function DonationsTable() {
           <CardContent className="p-8">
             <div className="text-center">
               <p className="text-red-600 mb-4">
-                Failed to load donations: {error.message}
+                {messages.intl.formatMessage({ id: "donations.failedToFetch" })}
+                : {error.message}
               </p>
               <Button onClick={() => refetch()} variant="outline">
-                Try Again
+                {messages.intl.formatMessage({
+                  id: "common.retry",
+                  defaultMessage: "Try Again",
+                })}
               </Button>
             </div>
           </CardContent>
@@ -296,17 +302,21 @@ export default function DonationsTable() {
         <Card className="bg-white shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-gray-900">
-              Recent Donations
+              {messages.donationsTable}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {/* No donations message */}
             {filteredDonations.length === 0 && (
               <div className="p-8 text-center text-gray-500">
-                <p>No donations found.</p>
+                <p>{messages.noDonationsFound}</p>
                 {searchTerm && (
                   <p className="text-sm mt-2">
-                    Try adjusting your search or filter criteria.
+                    {messages.intl.formatMessage({
+                      id: "donations.adjustSearchCriteria",
+                      defaultMessage:
+                        "Try adjusting your search or filter criteria.",
+                    })}
                   </p>
                 )}
               </div>
@@ -322,7 +332,6 @@ export default function DonationsTable() {
                       className="p-4 border-b border-gray-100 hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 cursor-pointer"
                       onClick={() => handleRowClick(donation)}
                     >
-                     
                       <div className="space-y-1 text-sm">
                         <div className="flex justify-between">
                           <span className="text-gray-600">Date:</span>
@@ -354,26 +363,35 @@ export default function DonationsTable() {
                   <thead>
                     <tr className="border-b border-gray-200">
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Tracking Code
+                        {messages.trackingCode}
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Total Donors
+                        {messages.intl.formatMessage({
+                          id: "donations.totalDonors",
+                          defaultMessage: "Total Donors",
+                        })}
                       </th>
 
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Animal Type
+                        {messages.animalType}
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Beneficiaries
+                        {messages.intl.formatMessage({
+                          id: "donations.beneficiaries",
+                          defaultMessage: "Beneficiaries",
+                        })}
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Date
+                        {messages.intl.formatMessage({
+                          id: "common.date",
+                          defaultMessage: "Date",
+                        })}
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Status
+                        {messages.status}
                       </th>
                       <th className="text-left py-3 px-4 font-medium text-gray-600">
-                        Action
+                        {messages.actions}
                       </th>
                     </tr>
                   </thead>
@@ -424,7 +442,10 @@ export default function DonationsTable() {
                               }}
                             >
                               <Eye className="h-3 w-3 mr-1" />
-                              View
+                              {messages.intl.formatMessage({
+                                id: "common.view",
+                                defaultMessage: "View",
+                              })}
                             </Button>
                           </td>
                         </tr>
